@@ -22,12 +22,6 @@ class Correos extends Admin_Controller {
 		$this->render('demo/adminlte');
 	}
 
-	
-
-	
-
-
-
 	// Grocery CRUD - Blog Posts
 	public function blog_post()
 	{
