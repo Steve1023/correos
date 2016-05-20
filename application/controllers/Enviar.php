@@ -90,9 +90,9 @@ class Enviar extends MY_Controller {
                                 . '</head>'
                                 . '</body>'
                                 . '<div style="background-image: url(\''.base_url().'rastreo/track/'.$row['id_destinatario'].'/'.$envio['env_id'].'\')">'
-                                . '<p><strong class="color:#345">'.$row['dtit_nombre']. ' '. $row['des_nombre'] .' '. $row['des_apellidopaterno'] .' '. $row['des_apellidomaterno'] .'</strong></p>'
-                                . '<p>'.$row['dcar_nombre'].'</p>'
-                                . '<p>'.$row['emp_razon'].'</p>'
+                                . '<p><strong class="color:#345">'.$row['dtit_nombre']. ' '. $row['des_nombre'] .' '. $row['des_apellidopaterno'] .' '. $row['des_apellidomaterno'] .'</strong><br />'
+                                . $row['dcar_nombre'].'<br/>'
+                                . $row['emp_razon'].'<br/></p>'
                                 . '</div>'
                                 . '<div id="contenido">'
                                 . $envio['env_contenido']
@@ -111,7 +111,6 @@ class Enviar extends MY_Controller {
                             echo 'Correo enviado con éxito a ' . $row['des_correo'] . ' | hora: ' . $Tenviado. PHP_EOL;
                         } else {
                             show_error($this->email->print_debugger());
-                            
                         }
                         
                         if ($fila < $cantidad) {

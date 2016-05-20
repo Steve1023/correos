@@ -44,7 +44,7 @@ class Rastreo_model extends CI_Model {
         $this->db->where('env_id', $envio);
         $query = $this->db->get('mail_envios');
         if ($query->num_rows() == 1) {
-            return $query->row();
+            return $query->row_array();
         }else{
             return FALSE;
         }

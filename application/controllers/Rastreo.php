@@ -35,7 +35,7 @@ class Rastreo extends My_Controller {
         $this->rastreo_model->track($destinatario, $envio, 1);
         $url = $this->rastreo_model->url($envio);
         if ($url == TRUE) {
-            redirect($url);
+            redirect($url['env_url']);
         }
     }
 
