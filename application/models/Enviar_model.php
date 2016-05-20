@@ -54,9 +54,11 @@ class Enviar_model extends CI_Model {
     }
 
     public function destinatarios($data) {
-        $this->db->select('id_destinatario,des_correo,des_nombre,des_apellidopaterno,des_apellidomaterno,dtit_nombre');
+        $this->db->select('id_destinatario,des_correo,des_nombre,des_apellidopaterno,des_apellidomaterno,dtit_nombre,dcar_nombre,emp_razon');
         $this->db->join('mail_destinatario', 'mail_destinatario.des_id=mail_eti_asignados.id_destinatario');
         $this->db->join('mail_des_titulo', 'mail_destinatario.id_dtit=mail_des_titulo.dtit_id');
+        $this->db->join('mail_des_cargo', 'mail_destinatario.id_dcar=mail_des_cargo.dcar_id');
+        $this->db->join('mail_empresa', 'mail_destinatario.id_emp=mail_empresa.emp_id');
         $i = 1;
         foreach ($data->result_array() as $row) {
             if ($i == 1) {
@@ -73,6 +75,9 @@ class Enviar_model extends CI_Model {
         } else {
             return FALSE;
         }
+    }
+    public function empresa_cargo($id){
+        
     }
 
     public function remitentes($id) {

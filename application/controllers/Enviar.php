@@ -74,14 +74,36 @@ class Enviar extends MY_Controller {
                             'smtp_pass' => $rem['rem_contrasena'],
                             'mailtype' => 'html',
                             'charset' => 'utf-8',
-                            'newline' => "\r\n"
+                            'newline' => "\r\n",
+                            'crlf' => "\r\n"
                         );
                         
                         $this->email->initialize($config);
                         $this->email->from($rem['rem_correo']);
                         $this->email->to($row['des_correo']);
                         $this->email->subject($envio['env_asunto']);
-                        $this->email->message('<p style="background-image: url(\"'.base_url().'rastreo/track\")"><strong>'.$row['dtit_nombre']. ' '. $row['des_nombre'] .' '. $row['des_apellidopaterno'] .' '. $row['des_apellidomaterno'] . '</p>'.$envio['env_contenido'].'<p style="text-align:center;width: 100%;"><a href="'.$envio['env_url'].'" target="new"><img src="'.$envio['env_img'].'" style="width: 90%;"></a></p>');
+                        $this->email->message('<!DOCTYPE html>'
+                                . '<html>'
+                                . '<head>'
+                                . '<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >'
+                                . '<title>'.$envio['env_asunto'].'</title>'
+                                . '</head>'
+                                . '</body>'
+                                . '<div style="background-image: url(\''.base_url().'rastreo/track/'.$row['id_destinatario'].'/'.$envio['env_id'].'\')">'
+                                . '<p><strong class="color:#345">'.$row['dtit_nombre']. ' '. $row['des_nombre'] .' '. $row['des_apellidopaterno'] .' '. $row['des_apellidomaterno'] .'</strong></p>'
+                                . '<p>'.$row['dcar_nombre'].'</p>'
+                                . '<p>'.$row['emp_razon'].'</p>'
+                                . '</div>'
+                                . '<div id="contenido">'
+                                . $envio['env_contenido']
+                                . '<div style="text-align:center;width: 100%;">'
+                                . '<a href="'.$envio['env_url'].'" target="new">'
+                                . '<img src="'.base_url().'img/'.$envio['env_img'].'" style="width: 90%;">'
+                                . '</a>'
+                                . '</div>'
+                                . '</div>'
+                                . '</body>'
+                                . '</html>');
 
                         if ($this->email->send()) {
                             $Tenviado = date("Y-m-d H:i:s");
