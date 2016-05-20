@@ -39,10 +39,22 @@ class Rastreo_model extends CI_Model {
 
         $this->db->update('mail_env_ejecutados', $data);
     }
-    /*
-    private function track_revision($destinatario, $envio) {
-        $this->db->select();
-        $this->db->where('enje_abierto',NULL);
-    }*/
+    public function url($envio) {
+        $this->db->select('env_url');
+        $this->db->where('env_id', $envio);
+        $query = $this->db->get('mail_envios');
+        if ($query->num_rows() == 1) {
+            return $query->row();
+        }else{
+            return FALSE;
+        }
+    }
 
+    
+
+    /*
+      private function track_revision($destinatario, $envio) {
+      $this->db->select();
+      $this->db->where('enje_abierto',NULL);
+      } */
 }

@@ -30,8 +30,13 @@ class Rastreo extends My_Controller {
         header('Content-Type: image/jpg');
         readfile('blank.jpg');
     }
-
-    public function url() {
-        
+    function url($destinatario, $envio) {
+        $this->load->model('rastreo_model');
+        $this->rastreo_model->track($destinatario, $envio, 1);
+        $url = $this->rastreo_model->url($envio);
+        if ($url == TRUE) {
+            redirect($url);
+        }
     }
+
 }

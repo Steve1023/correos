@@ -97,7 +97,7 @@ class Enviar extends MY_Controller {
                                 . '<div id="contenido">'
                                 . $envio['env_contenido']
                                 . '<div style="text-align:center;width: 100%;">'
-                                . '<a href="'.$envio['env_url'].'" target="new">'
+                                . '<a href="'.base_url().'rastreo/url/'.$row['id_destinatario'].'/'.$envio['env_id'].'" target="new">'
                                 . '<img src="'.base_url().'img/'.$envio['env_img'].'" style="width: 90%;">'
                                 . '</a>'
                                 . '</div>'
