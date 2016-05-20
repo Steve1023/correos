@@ -76,9 +76,6 @@ class Enviar_model extends CI_Model {
             return FALSE;
         }
     }
-    public function empresa_cargo($id){
-        
-    }
 
     public function remitentes($id) {
         $this->db->select('rem_correo,rem_smtp,rem_contrasena,rem_puerto');

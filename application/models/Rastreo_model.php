@@ -20,14 +20,29 @@ class Rastreo_model extends CI_Model {
         parent::__construct();
     }
 
-    public function track($destinatario, $envio) {
-        $data = array(
-            'enje_abierto' => date("Y-m-d H:i:s")
-        );
+    public function track($destinatario, $envio, $tipo) {
+        if ($tipo == 0) {
+            $data = array(
+                'enje_abierto' => date("Y-m-d H:i:s")
+            );
+            $this->db->where('enje_abierto', NULL);
+        } elseif ($tipo == 1) {
+            $data = array(
+                'enje_enlace' => 1,
+                'enje_abierto' => date("Y-m-d H:i:s")
+            );
+            $this->db->where('enje_enlace', 0);
+        }
+
         $this->db->where('enje_destinatario', $destinatario);
         $this->db->where('enje_envio', $envio);
-        $this->db->where('enje_abierto', NULL);
+
         $this->db->update('mail_env_ejecutados', $data);
     }
+    /*
+    private function track_revision($destinatario, $envio) {
+        $this->db->select();
+        $this->db->where('enje_abierto',NULL);
+    }*/
 
 }

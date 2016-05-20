@@ -19,5 +19,10 @@ class Mensaje extends My_Controller {
     public function __construct() {
         parent::__construct();
     }
+    
+    function contenido($destinatario, $envio){
+        $this->load->model('rastreo_model');
+        $this->rastreo_model->track($destinatario, $envio);
+    }
 
 }

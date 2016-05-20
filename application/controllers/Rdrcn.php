@@ -1,37 +1,25 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-
 /**
- * Description of Rastreo
+ * Description of Rdrcn
  *
  * @author desarrollo04
  */
-class Rastreo extends My_Controller {
-
+class Rdrcn extends MY_Controller{
     //put your code here
     public function __construct() {
         parent::__construct();
     }
-
-    public function index() {
-        
-    }
     
-    public function track($destinatario, $envio) {
+    function nlc($destinatario, $envio){
         $this->load->model('rastreo_model');
-        $this->rastreo_model->track($destinatario, $envio,0);
-        header('Content-Type: image/jpg');
-        readfile('blank.jpg');
+        $this->rastreo_model->track($destinatario, $envio);
     }
 
-    public function url() {
-        
-    }
 }

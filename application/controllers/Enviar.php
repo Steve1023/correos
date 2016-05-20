@@ -111,6 +111,7 @@ class Enviar extends MY_Controller {
                             echo 'Correo enviado con éxito a ' . $row['des_correo'] . ' | hora: ' . $Tenviado. PHP_EOL;
                         } else {
                             show_error($this->email->print_debugger());
+                            
                         }
                         
                         if ($fila < $cantidad) {
