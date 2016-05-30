@@ -26,7 +26,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 switch (ENVIRONMENT)
 {
 	case 'development':
-		$config['base_url'] = 'http://190.237.15.180:213/correos';
+            //$config['base_url'] = 'http://190.237.15.180:213/correos';
+		$config['base_url'] = 'http://localhost/correos';
 		break;
 	case 'testing';
 		$config['base_url'] = '';

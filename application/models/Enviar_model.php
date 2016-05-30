@@ -52,13 +52,34 @@ class Enviar_model extends CI_Model {
             return FALSE;
         }
     }
+    public function empresa($id){
+        $this->db->select('emp_razon');
+        $this->db->where('emp_id', $id);
+        $query = $this->db->get('mail_empresa');
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        } else {
+            return FALSE;
+        }
+    }
+    
+    public function cargo($id){
+        $this->db->select('dcar_nombre');
+        $this->db->where('dcar_id', $id);
+        $query = $this->db->get('mail_des_cargo');
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        } else {
+            return FALSE;
+        }
+    }
 
     public function destinatarios($data) {
-        $this->db->select('id_destinatario,des_correo,des_nombre,des_apellidopaterno,des_apellidomaterno,dtit_nombre,dcar_nombre,emp_razon');
+        $this->db->select('id_destinatario,des_correo,des_nombre,des_apellidopaterno,des_apellidomaterno,dtit_nombre,id_dcar,id_emp');
         $this->db->join('mail_destinatario', 'mail_destinatario.des_id=mail_eti_asignados.id_destinatario');
         $this->db->join('mail_des_titulo', 'mail_destinatario.id_dtit=mail_des_titulo.dtit_id');
-        $this->db->join('mail_des_cargo', 'mail_destinatario.id_dcar=mail_des_cargo.dcar_id');
-        $this->db->join('mail_empresa', 'mail_destinatario.id_emp=mail_empresa.emp_id');
+        //$this->db->join('mail_des_cargo', 'mail_destinatario.id_dcar=mail_des_cargo.dcar_id');
+        //$this->db->join('mail_empresa', 'mail_destinatario.id_emp=mail_empresa.emp_id');
         $i = 1;
         foreach ($data->result_array() as $row) {
             if ($i == 1) {
@@ -68,6 +89,7 @@ class Enviar_model extends CI_Model {
             }
             $i++;
         }
+        $this->db->where('des_correo IS NOT NULL');
         $this->db->group_by("id_destinatario");
         $query = $this->db->get('mail_eti_asignados');
         if ($query->num_rows() > 0) {
@@ -97,6 +119,25 @@ class Enviar_model extends CI_Model {
         );
 
         $this->db->insert('mail_env_ejecutados', $data);
+    }
+    
+    public function destinatario($correo,$mensaje){
+        $this->db->join('mail_destinatario', 'mail_destinatario.des_id=mail_env_ejecutados.enje_destinatario');
+        $this->db->join('mail_des_titulo', 'mail_destinatario.id_dtit=mail_des_titulo.dtit_id');
+        //$this->db->join('mail_des_cargo', 'mail_destinatario.id_dcar=mail_des_cargo.dcar_id');
+        //$this->db->join('mail_empresa', 'mail_destinatario.id_emp=mail_empresa.emp_id');
+        
+        $this->db->join('mail_envios', 'mail_envios.env_id=mail_env_ejecutados.enje_envio');
+        
+        
+        $this->db->where('enje_destinatario', $correo);
+        $this->db->where('enje_envio', $mensaje);
+        $query = $this->db->get('mail_env_ejecutados');
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        } else {
+            return FALSE;
+        }
     }
 
 }

@@ -122,7 +122,7 @@ class Correo extends MY_Controller {
                                                 'esec_nombre_esp' => $t_esector_esp,
                                                 'esec_nombre_ing' =>  $t_esector_ing
                                                 );
-                                        $sector=$this->ver_guardar('esec_id',$data,'emp_sector',$data);
+                                        $sector=$this->ver_guardar('esec_id',$data,'mail_emp_sector',$data);
 
                                         //Creamos subsector
                                         $data = array(
