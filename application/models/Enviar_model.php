@@ -74,7 +74,7 @@ class Enviar_model extends CI_Model {
         }
     }
 
-    public function destinatarios($data) {
+    public function destinatarios($data,$inicio,$final) {
         $this->db->select('id_destinatario,des_correo,des_nombre,des_apellidopaterno,des_apellidomaterno,dtit_nombre,id_dcar,id_emp');
         $this->db->join('mail_destinatario', 'mail_destinatario.des_id=mail_eti_asignados.id_destinatario');
         $this->db->join('mail_des_titulo', 'mail_destinatario.id_dtit=mail_des_titulo.dtit_id');
@@ -91,6 +91,9 @@ class Enviar_model extends CI_Model {
         }
         $this->db->where('des_correo IS NOT NULL');
         $this->db->group_by("id_destinatario");
+        if ($inicio!=NULL && $final!=NULL){
+            $this->db->limit($final,$inicio);
+        }
         $query = $this->db->get('mail_eti_asignados');
         if ($query->num_rows() > 0) {
             return $query;
@@ -141,3 +144,4 @@ class Enviar_model extends CI_Model {
     }
 
 }
+

@@ -39,7 +39,19 @@ class Envios extends Admin_Controller {
     }
 
     public function procesando() {
-        
+        $crud = $this->generate_crud('mail_envios');
+        $crud->where('env_estado', 2);
+        $crud->unset_add();
+        $crud->unset_edit();
+        $crud->unset_delete();
+        //$crud->unset_read();
+        $crud->display_as('env_asunto', 'Asunto');
+        $crud->columns('env_asunto', 'env_Fprogramada', 'Destinatarios');
+        $crud->set_relation_n_n('Destinatarios', 'mail_env_etiqueta', 'mail_etiqueta', 'enet_envio', 'enet_etiqueta', 'eti_nombre');
+        $crud->add_action('Destinatarios', base_url() . 'assets/grocery_crud/themes/flexigrid/css/images/destinatarios.png', 'admin/envios/listado');
+
+        $this->mTitle.= 'Remitidos';
+        $this->render_crud();
     }
 
     public function remitidos() {
@@ -58,24 +70,26 @@ class Envios extends Admin_Controller {
         $this->mTitle.= 'Remitidos';
         $this->render_crud();
     }
-//http://190.237.15.180:213/correos/rastreo/url/56070/10
+
     public function listado($id) {
         if (isset($id)) {
             $this->load->model('envios_model');
             $asunto = $this->envios_model->envio($id);
             $crud = $this->generate_crud('mail_env_ejecutados');
-            $crud->unset_add();
+            //$crud = $this->generate_crud('mail_destinatario');
+	    $crud->unset_add();
             $crud->unset_edit();
             $crud->unset_delete();
             $crud->unset_read();
             $crud->where('enje_envio', $id);
-            $crud->set_relation('enje_destinatario', 'mail_destinatario', 'des_correo');
-            $crud->display_as('enje_destinatario', 'Destinatario');
+            $crud->set_relation('enje_destinatario', 'mail_destinatario', '{des_nombre} - {des_apellidopaterno} - {des_correo}');
+            //$crud->display_as('des_correo', 'Destinatario');
             $crud->display_as('enje_fecha', 'Fecha de envío');
             $crud->display_as('enje_abierto', 'Fecha de apertura');
             $crud->display_as('enje_enlace', 'Enlace abierto');
             $crud->columns('enje_destinatario', 'enje_fecha', 'enje_abierto', 'enje_enlace');
-            $crud->unset_add();
+
+$crud->add_action('Ver datos del destinatario', base_url() . 'assets/grocery_crud/themes/flexigrid/css/images/magnifier.png', 'admin/destinatarios/destinatarios/read');
             $this->mTitle.= 'Remitido - '.$asunto['env_asunto'];
             $this->render_crud();
         } else {
